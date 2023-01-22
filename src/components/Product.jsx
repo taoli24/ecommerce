@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "./styled/Button";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
     padding: 20px;
@@ -18,6 +19,7 @@ const Wrapper = styled.div`
 function Product(props) {
     const item = props.product;
     const [numItemsOnCart, setItemOnCart] = useState(0);
+    const navigate = useNavigate()
 
     const addToCartHandler = () => {
         setItemOnCart((prevState) => {
@@ -27,13 +29,9 @@ function Product(props) {
 
     return (
         <Wrapper
-            onClick={
-                props.onSelected
-                    ? () => {
-                          props.onSelected(item);
-                      }
-                    : null
-            }
+            onClick={() => {
+                navigate(`product/${item.id}`)
+            }}
         >
             <img
                 style={{

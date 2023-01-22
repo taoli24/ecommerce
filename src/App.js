@@ -6,7 +6,6 @@ import AddProduct from "./components/AddProduct";
 import Cart from "./components/Cart";
 import NavBar from "./components/MUI/NavBar";
 import Login from "./components/Login";
-import { useState } from "react";
 import { GlobalContext } from "./components/utils/globalStateContext";
 import { useReducer } from "react";
 import { useEffect } from "react";
@@ -70,18 +69,20 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<MainPage />}>
             <Route path="login" element={<Login />} />
-            <Route path="product/add" element={<AddProduct />} />
+            <Route path="products/add" element={<AddProduct />} />
             <Route path="cart" element={<Cart />} />
+            <Route path="product/:productId" element={<ProductInfo />} />
+            <Route path="/" element={<ProductList />} />
         </Route>
     )
 );
 
 function MainPage() {
-    const [selectedItem, setSelectedItem] = useState(null);
+    // const [selectedItem, setSelectedItem] = useState(null);
 
-    const setItem = (item) => {
-        setSelectedItem(item);
-    };
+    // const setItem = (item) => {
+    //     setSelectedItem(item);
+    // };
     return (
         <>
             <NavBar />
