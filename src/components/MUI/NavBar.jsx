@@ -5,8 +5,7 @@ import { useGlobalContext } from "../utils/globalStateContext";
 const pages = ["Product", "Add Product", "Cart"];
 
 function NavBar() {
-
-    const { store } = useGlobalContext()
+    const { store, dispatch } = useGlobalContext();
 
     return (
         <AppBar position="static">
@@ -34,7 +33,19 @@ function NavBar() {
                             );
                         })}
                     </Box>
-                    { store.loggedInUserName }
+                    {store.loggedInUserName}
+                    {store.loggedInUserName && (
+                        <button onClick={() => {
+                            dispatch({
+                                type: "setUser",
+                                data: ""
+                            })
+                            dispatch({
+                                type: "setToken",
+                                data: ""
+                            })
+                        }}>Logout</button>
+                    )}
                 </Toolbar>
             </Container>
         </AppBar>

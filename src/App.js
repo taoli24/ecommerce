@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import { useState } from "react";
 import { GlobalContext } from "./components/utils/globalStateContext";
 import { useReducer } from "react";
+import { useEffect } from "react";
 import globalReducer from "./components/reducers/globalReducer";
 
 function App() {
@@ -23,6 +24,23 @@ function App() {
     const setItem = (item) => {
         setSelectedItem(item);
     };
+
+    useEffect(() => {
+      const username = localStorage.getItem("username")
+      const token = localStorage.getItem("token")
+
+      if (token && username){
+        dispatch({
+          type:"setUser",
+          data: username
+        })
+
+        dispatch({
+          type:"setToken",
+          data: token
+        })
+      }
+    },[])
 
     // Component did mount and component did update
     // useEffect(() => {

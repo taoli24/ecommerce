@@ -24,9 +24,7 @@ function Login() {
         api: null,
     });
 
-    const [userFetched, setUserFetched] = useState(false);
-
-    const { dispatch } = useGlobalContext();
+    const { store, dispatch } = useGlobalContext();
 
     const loginHandler = (e) => {
         e.preventDefault();
@@ -64,7 +62,6 @@ function Login() {
                 .then((res) => res.data)
                 .then((json) => {
                     console.log(json);
-                    setUserFetched(true);
                     dispatch({
                         type: "setToken",
                         data: json.token,
@@ -100,60 +97,58 @@ function Login() {
 
     return (
         <div className="login">
-            <Title>Login</Title>
-            {!userFetched ? (
-                <form
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    }}
-                    onSubmit={loginHandler}
-                >
-                    <InputWrapper>
-                        <label htmlFor="username">User Name:</label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={user.userName}
-                            onChange={formChangeHandler}
-                        />
-                    </InputWrapper>
-                    {validateMessage.username && (
-                        <div style={{ color: "red", fontSize: "0.7rem" }}>
-                            {validateMessage.username}
-                        </div>
-                    )}
-                    <InputWrapper>
-                        <label htmlFor="password">Password:</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={user.password}
-                            onChange={formChangeHandler}
-                        />
-                    </InputWrapper>
-                    {validateMessage.password && (
-                        <div style={{ color: "red", fontSize: "0.7rem" }}>
-                            {validateMessage.password}
-                        </div>
-                    )}
-                    <InputWrapper>
-                        <div></div>
-                        <input type="submit" value="Login" />
-                    </InputWrapper>
-                    {validateMessage.api && (
-                        <div style={{ color: "red", fontSize: "0.8rem" }}>
-                            {validateMessage.api}
-                        </div>
-                    )}
-                </form>
+            {!store.loggedInUserName ? (
+                <div>
+                    <Title>Login</Title>
+                    <form
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
+                        onSubmit={loginHandler}
+                    >
+                        <InputWrapper>
+                            <label htmlFor="username">User Name:</label>
+                            <input
+                                type="text"
+                                name="username"
+                                value={user.userName}
+                                onChange={formChangeHandler}
+                            />
+                        </InputWrapper>
+                        {validateMessage.username && (
+                            <div style={{ color: "red", fontSize: "0.7rem" }}>
+                                {validateMessage.username}
+                            </div>
+                        )}
+                        <InputWrapper>
+                            <label htmlFor="password">Password:</label>
+                            <input
+                                type="password"
+                                name="password"
+                                value={user.password}
+                                onChange={formChangeHandler}
+                            />
+                        </InputWrapper>
+                        {validateMessage.password && (
+                            <div style={{ color: "red", fontSize: "0.7rem" }}>
+                                {validateMessage.password}
+                            </div>
+                        )}
+                        <InputWrapper>
+                            <div></div>
+                            <input type="submit" value="Login" />
+                        </InputWrapper>
+                        {validateMessage.api && (
+                            <div style={{ color: "red", fontSize: "0.8rem" }}>
+                                {validateMessage.api}
+                            </div>
+                        )}
+                    </form>
+                </div>
             ) : (
-                <div style={{
-                    "textAlign": "center",
-                    "color": "green",
-                    "fontWeight": "bold"
-                }}>Welcome back!</div>
+                <Title>Welcome back!</Title>
             )}
         </div>
     );
