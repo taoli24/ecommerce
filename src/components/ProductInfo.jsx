@@ -1,5 +1,6 @@
 import Title from "./styled/Title";
 import Product from "./Product";
+import Review from "./Review";
 
 function ProductInfo(props){
     const item = props.item
@@ -7,6 +8,7 @@ function ProductInfo(props){
         <>
             <Title>{item.title}</Title>
             <Product product={item} />
+            <Review />
         </>                 
     ))
 }

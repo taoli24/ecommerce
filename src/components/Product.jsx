@@ -17,7 +17,6 @@ const Wrapper = styled.div`
 
 function Product(props) {
     const item = props.product;
-
     const [numItemsOnCart, setItemOnCart] = useState(0);
 
     const addToCartHandler = () => {
@@ -27,9 +26,15 @@ function Product(props) {
     };
 
     return (
-        <Wrapper onClick={props.onSelected? () => {
-            props.onSelected(item)
-        }: null}>
+        <Wrapper
+            onClick={
+                props.onSelected
+                    ? () => {
+                          props.onSelected(item);
+                      }
+                    : null
+            }
+        >
             <img
                 style={{
                     height: 200,
@@ -64,7 +69,9 @@ function Product(props) {
                 onClick={addToCartHandler}
                 greaterThanFive={numItemsOnCart > 5}
             >
-                {item.stock === numItemsOnCart ? "No Stock Left" : "Add to Cart"}
+                {item.stock === numItemsOnCart
+                    ? "No Stock Left"
+                    : "Add to Cart"}
             </Button>
         </Wrapper>
     );
