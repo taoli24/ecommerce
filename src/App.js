@@ -11,36 +11,38 @@ import { GlobalContext } from "./components/utils/globalStateContext";
 import { useReducer } from "react";
 import { useEffect } from "react";
 import globalReducer from "./components/reducers/globalReducer";
+import {
+    createBrowserRouter,
+    createRoutesFromElements,
+    Route,
+    RouterProvider,
+    Outlet
+} from "react-router-dom";
 
 function App() {
-    const [selectedItem, setSelectedItem] = useState(null);
     const initialState = {
-      loggedInUserName: "",
-      token: ""
-    }
-
-    const [store, dispatch] = useReducer(globalReducer, initialState)
-
-    const setItem = (item) => {
-        setSelectedItem(item);
+        loggedInUserName: "",
+        token: "",
     };
 
+    const [store, dispatch] = useReducer(globalReducer, initialState);
+
     useEffect(() => {
-      const username = localStorage.getItem("username")
-      const token = localStorage.getItem("token")
+        const username = localStorage.getItem("username");
+        const token = localStorage.getItem("token");
 
-      if (token && username){
-        dispatch({
-          type:"setUser",
-          data: username
-        })
+        if (token && username) {
+            dispatch({
+                type: "setUser",
+                data: username,
+            });
 
-        dispatch({
-          type:"setToken",
-          data: token
-        })
-      }
-    },[])
+            dispatch({
+                type: "setToken",
+                data: token,
+            });
+        }
+    }, []);
 
     // Component did mount and component did update
     // useEffect(() => {
@@ -57,18 +59,40 @@ function App() {
         <>
             <div className="App">
                 <GlobalContext.Provider value={{ store, dispatch }}>
-                    <NavBar />
-                    <Login />
-                    <ProductList onSelected={setItem} />
-                    {selectedItem == null ? (
-                        "No item selected"
-                    ) : (
-                        <ProductInfo item={selectedItem} />
-                    )}
-                    <AddProduct></AddProduct>
-                    <Cart />
+                    <RouterProvider router={router} />
                 </GlobalContext.Provider>
             </div>
+        </>
+    );
+}
+
+const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route path="/" element={<MainPage />}>
+            <Route path="login" element={<Login />} />
+        </Route>
+    )
+);
+
+function MainPage() {
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const setItem = (item) => {
+        setSelectedItem(item);
+    };
+    return (
+        <>
+            <NavBar />
+            <Outlet />
+            {/* <Login />
+            <ProductList onSelected={setItem} />
+            {selectedItem == null ? (
+                "No item selected"
+            ) : (
+                <ProductInfo item={selectedItem} />
+            )}
+            <AddProduct></AddProduct>
+            <Cart /> */}
         </>
     );
 }
