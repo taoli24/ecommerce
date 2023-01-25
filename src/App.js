@@ -18,6 +18,7 @@ import {
     Outlet
 } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NotFound from "./components/NotFound";
 
 function App() {
     const initialState = {
@@ -68,7 +69,7 @@ function App() {
 
 const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<MainPage />}>
+        <Route path="/" element={<MainPage />} errorElement={<NotFound />}>
             <Route path="login" element={<Login />} />
             <Route element={<ProtectedRoute />}>
                 <Route path="products/add" element={<AddProduct />} />
