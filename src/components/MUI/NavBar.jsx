@@ -1,12 +1,28 @@
 import { AppBar, Container, Toolbar, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { useGlobalContext } from "../utils/globalStateContext";
+import { Link, useNavigate } from "react-router-dom";
 
-const pages = ["Product", "Add Product", "Cart"];
+// const pages = ["Product", "Add Product", "Cart"];
+
+const pages = [
+    {
+        title: "Products",
+        linkto: "/",
+    },
+    {
+        title: "Add Product",
+        linkto: "products/add",
+    },
+    {
+        title: "Cart",
+        linkto: "cart",
+    },
+];
 
 function NavBar() {
-
-    const { store } = useGlobalContext()
+    const { store, dispatch } = useGlobalContext();
+    const navigate = useNavigate()
 
     return (
         <AppBar position="static">
@@ -15,26 +31,46 @@ function NavBar() {
                     <Box sx={{ flexGrow: 1, display: "flex" }}>
                         {pages.map((page) => {
                             return (
-                                <a
-                                    key={page}
+                                <Link
+                                    key={page.title}
                                     style={{ textDecoration: "none" }}
-                                    href={`#${page.replace(" ", "")}`}
+                                    to={page.linkto}
                                 >
                                     <Button
-                                        key={page}
+                                        key={page.title}
                                         sx={{
                                             my: 2,
                                             color: "white",
                                             display: "block",
                                         }}
                                     >
-                                        {page}
+                                        {page.title}
                                     </Button>
-                                </a>
+                                </Link>
                             );
                         })}
                     </Box>
-                    { store.loggedInUserName }
+                    {store.loggedInUserName}
+                    {store.loggedInUserName ? (
+                        <button
+                            onClick={() => {
+                                dispatch({
+                                    type: "setUser",
+                                    data: "",
+                                });
+                                dispatch({
+                                    type: "setToken",
+                                    data: "",
+                                });
+                            }}
+                        >
+                            Logout
+                        </button>
+                    ) : (
+                        <button onClick={() => {
+                            navigate("login")
+                        }}>Login</button>
+                    )}
                 </Toolbar>
             </Container>
         </AppBar>
