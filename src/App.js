@@ -17,6 +17,7 @@ import {
     RouterProvider,
     Outlet
 } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
     const initialState = {
@@ -69,8 +70,10 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<MainPage />}>
             <Route path="login" element={<Login />} />
-            <Route path="products/add" element={<AddProduct />} />
-            <Route path="cart" element={<Cart />} />
+            <Route element={<ProtectedRoute />}>
+                <Route path="products/add" element={<AddProduct />} />
+                <Route path="cart" element={<Cart />} />
+            </Route>
             <Route path="product/:productId" element={<ProductInfo />} />
             <Route path="/" element={<ProductList />} />
         </Route>
